@@ -1,12 +1,36 @@
-1. **nginx.conf:**
+## Serving Static Content
+## Basic Authentication
 
-   This file contains configuration settings for the Nginx web server. It's like a set of instructions for how the server should work. Here's what each part does:
-   
-   - `http`: This section contains server-wide settings for the HTTP protocol, which is what websites use to communicate on the internet.
-   - `server`: Inside the `http` section, this part defines a server block, which is like a single virtual server that listens on a particular port (in this case, port 80).
-   - `listen 80;`: This line specifies that the server should listen for incoming requests on port 80, which is the default port for web traffic.
-   - `root /usr/share/nginx/html;`: This line indicates where the server should look for website files to serve. It's set to a directory called `/usr/share/nginx/html`.
-   - `index index.html index.htm;`: This line lists the default files the server should look for if a user visits a directory. It will look for `index.html` or `index.htm` and show them if found.
+**nginx.conf:**
+This Nginx configuration is set up to serve a website with different content for various URL paths and enforce Basic Authentication for a specific path:
+
+- `http`: This block contains the server-wide settings for the HTTP protocol.
+
+- `server`: Within the `http` block, this section defines the configuration for a single virtual server.
+
+  - `listen 80;`: Specifies that the server should listen on port 80 for incoming HTTP requests.
+  - `root /data;`: Sets the root directory for serving web content to the `/data` directory.
+  - `index index.html;`: Specifies that if a directory is accessed without specifying a filename, the server should look for an `index.html` file.
+  - `proxy_set_header Host $host:$server_port;`: Sets the `Host` header to the value of the requested host and server port, which can be used for proxying requests.
+
+- `location /`: Defines behavior for requests to the root URL path (`/`).
+
+  - `root /data;`: Sets the root directory for serving content to the `/data` directory.
+  - `index index.html;`: Specifies that `index.html` should be the default index file to serve.
+
+- `location /about`: Defines behavior for requests to the `/about` URL path.
+
+  - `root /data;`: Sets the root directory for serving content to the `/data` directory.
+  - `index about.html;`: Specifies that `about.html` should be the index file for this path.
+
+- `location /profile`: Defines behavior for requests to the `/profile` URL path.
+
+  - `auth_basic "Restricted Content";`: Enforces Basic Authentication with the realm "Restricted Content."
+  - `auth_basic_user_file /etc/nginx/.htpasswd;`: Specifies the file containing user credentials for authentication.
+  - `root /data;`: Sets the root directory for serving content to the `/data` directory.
+  - `index profile.html;`: Specifies that `profile.html` should be the index file for this path.
+
+
 
 2. **Dockerfile:**
 
