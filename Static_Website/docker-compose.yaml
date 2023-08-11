@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx:1.24.0-alpine
+    container_name: nginx-container
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx-html:/usr/share/nginx/html
+      - ./config:/etc/nginx
