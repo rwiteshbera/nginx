@@ -1,8 +1,28 @@
 version: "3.8"
+
 services:
+  server1:
+    build: ./data/server1
+    restart: on-failure
+    networks:
+      - mynetwork
+
+  server2:
+    build: ./data/server2
+    restart: on-failure
+    networks:
+      - mynetwork
+
   nginx:
     image: nginx:1.24.0-alpine
     ports:
       - "8080:80"
     volumes:
       - ./config:/etc/nginx
+    restart: on-failure
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

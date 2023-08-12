@@ -1,6 +1,5 @@
 # Create Password for Basic Auth in Nginx
 
-
 # Check if the script is executed as root 
 # Check if the script is run as root
 if [ "$EUID" -ne 0 ]; then
