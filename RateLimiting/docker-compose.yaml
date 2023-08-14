@@ -1,14 +1,8 @@
 version: "3.8"
 
 services:
-  server1:
-    build: ./data/server1
-    restart: on-failure
-    networks:
-      - mynetwork
-
-  server2:
-    build: ./data/server2
+  backend:
+    build: ./data
     restart: on-failure
     networks:
       - mynetwork
